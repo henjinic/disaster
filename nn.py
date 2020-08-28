@@ -30,10 +30,6 @@ class NeuralNetwork:
                 loss='categorical_crossentropy',
                 metrics=['accuracy'])
 
-    @property
-    def dirpath(self):
-        return self._dirpath
-
     def train(self, epochs, seed):
         self._epochs = epochs
         self._seed = seed
