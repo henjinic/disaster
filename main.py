@@ -25,6 +25,7 @@ LABELS_ENTRIES = [
     ['0', '1', '2', '3', '4', '5'],
 ]
 
+
 def main():
     maps = Maps()
 
@@ -46,7 +47,6 @@ def main():
                 maps.save_prob_map(probs[:, k], f'{dirpath}/prob_map_{label}.asc')
 
             maps.save_prob_map(np.argmax(probs, axis=1), f'{dirpath}/label_map.asc')
-
 
 
 if __name__ == '__main__':

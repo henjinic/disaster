@@ -57,7 +57,8 @@ class NeuralNetwork:
 
         # save train history
         with open(f'{dirpath}/history.json', 'w') as f:
-            json.dump(self._history.history, f, indent=4)
+            json.dump({k: [float(x) for x in v]
+                       for k, v in self._history.history.items()}, f, indent=4)
 
         # save metadata
         results = {}
@@ -68,25 +69,29 @@ class NeuralNetwork:
         with open(f'{dirpath}/metadata.txt', 'w') as f:
             json.dump(results, f, indent=4)
 
-
     def predict(self, features):
         return self._model.predict(self._scaler.transform(features))
 
 
 def main():
     maps = Maps()
+    curtime = datetime.datetime.today().strftime('%y%m%d-%H%M%S')
+    dirpath = f'results/{curtime}'
+
     labels = ['0', '12345']
     x, y = maps.get_trainset(0.4, 0.6, labels=labels)
 
     nn = NeuralNetwork(x, y)
-    nn.train(epochs=20, seed=0)
-    curtime = datetime.datetime.today().strftime('%y%m%d-%H%M%S')
-    nn.save(f'results/{curtime}')
+
+    nn.train(epochs=5, seed=0)
+    nn.save(dirpath)
 
     probs = nn.predict(maps.valid_features)
+
     for i, label in enumerate(labels):
-        maps.save_prob_map(probs[:, i], f'{nn.dirpath}/prob_map_{label}.asc')
-    maps.save_prob_map(np.argmax(probs, axis=1), f'{nn.dirpath}/label_map.asc')
+        maps.save_prob_map(probs[:, i], f'{dirpath}/prob_map_{label}.asc')
+
+    maps.save_prob_map(np.argmax(probs, axis=1), f'{dirpath}/label_map.asc')
 
 
 if __name__ == '__main__':
