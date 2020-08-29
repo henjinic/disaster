@@ -66,8 +66,8 @@ class NeuralNetwork:
         results['epochs'] = self._epochs
         results['seed'] = self._seed
 
-        with open(f'{dirpath}/metadata.txt', 'w') as f:
-            json.dump(results, f, indent=4)
+        with open(f'{dirpath}/metadata.json', 'w') as f:
+            json.dump({k: float(v) for k, v in results.items()}, f, indent=4)
 
     def predict(self, features):
         return self._model.predict(self._scaler.transform(features))
