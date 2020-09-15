@@ -93,6 +93,16 @@ class Maps:
 
         return self._onehot_encode(np.array(x), 21, ref=list(range(1, 11))), np.array(y)
 
+    def get_clusterset(self):
+        result = []
+
+        for disaster_vec in self._disasters:
+            if -9999 in disaster_vec:
+                continue
+            result.append(disaster_vec)
+
+        return np.array(result)
+
     def save_prob_map(self, probs, path):
         prob_map = np.zeros(self._nrows * self._ncols)
         prob_map[:] = -9999
