@@ -3,20 +3,30 @@ from maps import Maps
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.preprocessing import MinMaxScaler
 
-N_CLUSTERS = 4
+
+class Cluster:
+
+    def __init__(self, n_clusters=4):
+        self._kmeans = MiniBatchKMeans(n_clusters=n_clusters)
+
+    def fit(self, samples):
+        self._kmeans.fit(samples)
+
+        labels = self._kmeans.labels_
+        centers = self._kmeans.cluster_centers_
+
+        return labels, centers
 
 
 def main():
-    maps = Maps()
+    samples = [[1, 1], [2, 2], [3, 5], [4, 5], [8, 6], [7, 2], [5, 6]]
 
-    samples = maps.get_clusterset()
+    cluster = Cluster(n_clusters=4)
+    labels, centers = cluster.fit(samples)
 
-    kmeans = MiniBatchKMeans(n_clusters=N_CLUSTERS, max_iter=100, batch_size=100, random_state=0)
+    print(labels)
+    print(centers)
 
-    kmeans.fit(samples)
-
-    print(kmeans.cluster_centers_)
-    print(np.unique(kmeans.labels_, return_counts=True))
 
 if __name__ == '__main__':
     main()
