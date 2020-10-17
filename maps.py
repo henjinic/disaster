@@ -1,4 +1,5 @@
 import numpy as np
+from cluster import Cluster
 
 
 DISASTERS = [
@@ -102,6 +103,41 @@ class Maps:
             result.append(disaster_vec)
 
         return np.array(result)
+
+    def get_trainset_cluster(self, lower_bound, upper_bound, n_clusters):
+        pass
+    # todo: rewirte full code
+    #     x, y = [], []
+
+    #     for feature_vec, disaster_vec in zip(self._features, self._disasters):
+    #         if -9999 in feature_vec:
+    #             continue
+
+    #         if -9999 in disaster_vec:
+    #             continue
+
+    #         categories = []
+
+    #         for disaster in disaster_vec:
+    #             if disaster <= lower_bound:
+    #                 categories.append(0)
+    #             elif disaster >= upper_bound:
+    #                 categories.append(1)
+    #             else:
+    #                 categories.append(2)
+
+    #         if 2 in categories:
+    #             continue
+
+    #         for i, label in enumerate(labels):
+    #             vec = [0] * len(labels)
+    #             if str(sum(categories)) in label:
+    #                 vec[i] = 1
+    #                 y.append(vec)
+    #                 x.append(feature_vec)
+    #                 break
+
+    #     return self._onehot_encode(np.array(x), 21, ref=list(range(1, 11))), np.array(y)
 
     def save_prob_map(self, probs, path):
         prob_map = np.zeros(self._nrows * self._ncols)
